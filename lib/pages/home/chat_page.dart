@@ -107,6 +107,7 @@ class ChatPage extends StatelessWidget {
     return Column(
       children: [
         header(),
+        // emptyChat(),
         content(),
       ],
     );

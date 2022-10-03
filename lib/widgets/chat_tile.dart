@@ -36,7 +36,7 @@ class ChatTile extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Good night, This item is on market now?',
+                        'Halo, Apakah barang ini masih ada?',
                         style: secondaryTextStyle.copyWith(
                           fontWeight: light,
                         ),

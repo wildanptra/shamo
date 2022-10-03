@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shamo/theme.dart';
+import 'package:shamo/widgets/chat_bubble.dart';
 
 class DetailChatPage extends StatelessWidget {
   const DetailChatPage({Key? key}) : super(key: key);
@@ -50,7 +51,7 @@ class DetailChatPage extends StatelessWidget {
       );
     }
 
-    productPreview(){
+    Widget productPreview(){
       return Container(
         width: 225,
         height: 74,
@@ -109,7 +110,7 @@ class DetailChatPage extends StatelessWidget {
       );
     }
 
-    chatInput(){
+    Widget chatInput(){
       return Container(
         margin: const EdgeInsets.all(20),
         child: Column(
@@ -154,10 +155,35 @@ class DetailChatPage extends StatelessWidget {
       );
     }
     
+    Widget content(){
+      return ListView(
+        padding: EdgeInsets.symmetric(
+          horizontal: defaultMargin,
+        ),
+        children: [
+          ChatBubble(
+            isSender: true,
+            text: 'Halo, Apakah barang ini masih ada?',
+            hasProduct: true,
+          ),
+          ChatBubble(
+            isSender: false,
+            text: 'Selamat malam, Untuk barang ini hanya tersedia di ukuran 42 dan 43',
+          ),
+          ChatBubble(
+            isSender: true,
+            text: 'Kalau gitu saya pesan ukuran yang 43',
+            hasProduct: false,
+          ),
+        ],
+      );
+    }
+
     return Scaffold(
       backgroundColor: backgroundColor3,
       appBar: header(),
       bottomNavigationBar: chatInput(),
+      body: content(),
     );
   }
 }

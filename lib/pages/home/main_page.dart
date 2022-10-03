@@ -21,9 +21,12 @@ class _MainPageState extends State<MainPage> {
 
     Widget cartButton(){
       return FloatingActionButton(
-        onPressed: (){},
+        onPressed: (){
+          Navigator.pushNamed(context, '/cart');
+        },
         backgroundColor: secondaryColor,
-        child: Image.asset('assets/icon_cart.png',
+        child: Image.asset(
+          'assets/icon_cart.png',
           width: 20, 
         ),
       );
@@ -53,7 +56,7 @@ class _MainPageState extends State<MainPage> {
               BottomNavigationBarItem(
                 icon: Container(
                   margin: const EdgeInsets.only(
-                    top: 20,
+                    top: 21,
                     bottom: 5,
                   ),
                   child: Image.asset(
@@ -67,7 +70,7 @@ class _MainPageState extends State<MainPage> {
               BottomNavigationBarItem(
                 icon: Container(
                   margin: const EdgeInsets.only(
-                    top: 20,
+                    top: 21,
                     bottom: 5,
                   ),
                   child: Image.asset(
@@ -81,7 +84,7 @@ class _MainPageState extends State<MainPage> {
               BottomNavigationBarItem(
                 icon: Container(
                   margin: const EdgeInsets.only(
-                    top: 20,
+                    top: 21,
                     bottom: 5,
                   ),
                   child: Image.asset(
@@ -95,7 +98,7 @@ class _MainPageState extends State<MainPage> {
               BottomNavigationBarItem(
                 icon: Container(
                   margin: const EdgeInsets.only(
-                    top: 20,
+                    top: 21,
                     bottom: 5,
                   ),
                   child: Image.asset(
@@ -128,7 +131,7 @@ class _MainPageState extends State<MainPage> {
     }
 
     return Scaffold(
-      backgroundColor: backgroundColor1,
+      backgroundColor: currentIndex == 0 ?  backgroundColor1 : backgroundColor3,
       floatingActionButton: cartButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: customBottomNav(),
