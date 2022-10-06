@@ -1,8 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo/models/product_model.dart';
+import 'package:shamo/providers/cart_provider.dart';
+import 'package:shamo/providers/wishlist_provider.dart';
 import 'package:shamo/theme.dart';
 
 class ProductPage extends StatefulWidget {
+
+  final ProductModel product;
+  ProductPage(this.product);
 
   @override
   State<ProductPage> createState() => _ProductPageState();
@@ -10,11 +17,6 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   // const ProductPage({super.key});
-  List images = [
-    'assets/image_shoes3.png',
-    'assets/image_shoes3.png',
-    'assets/image_shoes3.png',
-  ];
 
   List familiarShoes = [
     'assets/image_shoes.png',
@@ -32,6 +34,9 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    WishlistProvider wishlistProvider = Provider.of<WishlistProvider>(context);
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
 
     Future<void> showSuccessDialog() async{
       return showDialog(
@@ -87,7 +92,7 @@ class _ProductPageState extends State<ProductPage> {
                     height: 44,
                     child: TextButton(
                       onPressed: (){
-
+                        Navigator.pushNamed(context, '/cart');
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: primaryColor,
@@ -174,9 +179,9 @@ class _ProductPageState extends State<ProductPage> {
             ),
           ),
           CarouselSlider(
-            items: images.map(
-              (image) => Image.asset(
-                image,
+            items: widget.product.galleries.map(
+              (image) => Image.network(
+                image.url,
                 width: MediaQuery.of(context).size.width,
                 height: 310,
                 fit: BoxFit.cover,
@@ -196,7 +201,7 @@ class _ProductPageState extends State<ProductPage> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: images.map((e) {
+            children: widget.product.galleries.map((e) {
               index++;
               return indicator(index);
             }).toList(),
@@ -236,14 +241,14 @@ class _ProductPageState extends State<ProductPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Ultra 4D 5 Shoes',
+                          widget.product.name,
                           style: primaryTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: semiBold,
                           ),
                         ),
                         Text(
-                          'Running',
+                          widget.product.category.name,
                           style: secondaryTextStyle.copyWith(
                             fontSize: 12,
                           ),
@@ -253,11 +258,10 @@ class _ProductPageState extends State<ProductPage> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      setState(() {
-                        isWishList = !isWishList;
-                      });
+                      
+                      wishlistProvider.setProduct(widget.product);
 
-                      if(isWishList){
+                      if(wishlistProvider.isWishlist(widget.product)){
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor: secondaryColor,
@@ -281,7 +285,7 @@ class _ProductPageState extends State<ProductPage> {
 
                     },
                     child: Image.asset(
-                      isWishList ? 'assets/button_wishlist_blue.png' : 'assets/button_wishlist.png',
+                      wishlistProvider.isWishlist(widget.product) ? 'assets/button_wishlist_blue.png' : 'assets/button_wishlist.png',
                       width: 46,
                     ),
                   )
@@ -311,7 +315,7 @@ class _ProductPageState extends State<ProductPage> {
                     style: primaryTextStyle,
                   ),
                   Text(
-                    '\$143,98',
+                    '\$${widget.product.price}',
                     style: priceTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: semiBold,
@@ -343,7 +347,7 @@ class _ProductPageState extends State<ProductPage> {
                     height: 12,
                   ),
                   Text(
-                    'Unpaved trails and mixed surfaces are easy when you have the traction and support you need. Casual enough for the daily commute.',
+                    widget.product.description,
                     style: subtitleTextStyle.copyWith(
                       fontWeight: light,
                     ),
@@ -427,6 +431,7 @@ class _ProductPageState extends State<ProductPage> {
                       height: 54,
                       child: TextButton(
                         onPressed: (){
+                          cartProvider.addCart(widget.product);
                           showSuccessDialog();
                         },
                         style: TextButton.styleFrom(

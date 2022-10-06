@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo/models/product_model.dart';
+import 'package:shamo/providers/wishlist_provider.dart';
 import 'package:shamo/theme.dart';
 
 class WishListCard extends StatelessWidget {
-  const WishListCard({Key? key}) : super(key: key);
+  final ProductModel product;
+  WishListCard(this.product);
+
 
   @override
   Widget build(BuildContext context) {
+
+    WishlistProvider wishlistProvider = Provider.of<WishlistProvider>(context);
+
     return Container(
       margin: const EdgeInsets.only(
         top: 20,
@@ -24,8 +32,8 @@ class WishListCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.asset(
-              'assets/image_shoes3.png',
+            child: Image.network(
+              product.galleries[0].url,
               width: 60,
             ),
           ),
@@ -37,21 +45,27 @@ class WishListCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Ultra 4D 5 Shoes',
+                  product.name,
                   style: primaryTextStyle.copyWith(
                     fontWeight: semiBold,
                   ),
+                  maxLines: 1,
                 ),
                 Text(
-                  '\$143, 98',
+                  '\$${product.price}',
                   style: priceTextStyle,
                 ),
               ],
             ),
           ),
-          Image.asset(
-            'assets/button_wishlist_blue.png',
-            width: 34,
+          GestureDetector(
+            onTap: (){
+              wishlistProvider.setProduct(product);
+            },
+            child: Image.asset(
+              'assets/button_wishlist_blue.png',
+              width: 34,
+            ),
           ),
         ]
       ),
