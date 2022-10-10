@@ -37,7 +37,7 @@ class CartCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
                     image: NetworkImage(
-                      cart.product.galleries[0].url,
+                      cart.product.galleries![0].url,
                     ),
                   ),
                 ),
@@ -50,7 +50,7 @@ class CartCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      cart.product.name,
+                      cart.product.name!,
                       style: primaryTextStyle.copyWith(
                         fontWeight: semiBold,
                       ),

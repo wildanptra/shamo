@@ -1,14 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo/models/message_model.dart';
+import 'package:shamo/models/product_model.dart';
+import 'package:shamo/providers/auth_provider.dart';
+import 'package:shamo/services/message_service.dart';
 import 'package:shamo/theme.dart';
 import 'package:shamo/widgets/chat_bubble.dart';
 
-class DetailChatPage extends StatelessWidget {
-  const DetailChatPage({Key? key}) : super(key: key);
+class DetailChatPage extends StatefulWidget {
+  ProductModel product;
+  DetailChatPage(this.product);
+
+  @override
+  State<DetailChatPage> createState() => _DetailChatPageState();
+}
+
+class _DetailChatPageState extends State<DetailChatPage> {
+  TextEditingController messageController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
-    header(){
+    handleAddMessage() async {
+      await MessageService().addMessage(
+        user: authProvider.user,
+        isFromUser: true,
+        product: widget.product,
+        message: messageController.text,
+      );
+
+      setState(() {
+        widget.product = UninitializedProductModel();
+        messageController.text = '';
+      });
+    }
+
+    header() {
       return PreferredSize(
         preferredSize: const Size.fromHeight(65),
         child: Container(
@@ -51,13 +79,11 @@ class DetailChatPage extends StatelessWidget {
       );
     }
 
-    Widget productPreview(){
+    Widget productPreview() {
       return Container(
         width: 225,
         height: 74,
-        margin: const EdgeInsets.only(
-          bottom: 20
-        ),
+        margin: const EdgeInsets.only(bottom: 20),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: backgroundColor5,
@@ -71,8 +97,8 @@ class DetailChatPage extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                'assets/image_shoes3.png',
+              child: Image.network(
+                widget.product.galleries![0].url,
                 width: 54,
               ),
             ),
@@ -85,7 +111,7 @@ class DetailChatPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Ultra 4D 5 Shoes',
+                    '${widget.product.name}',
                     style: primaryTextStyle,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -93,7 +119,7 @@ class DetailChatPage extends StatelessWidget {
                     height: 2,
                   ),
                   Text(
-                    '\$57,15',
+                    '\$${widget.product.price}',
                     style: priceTextStyle.copyWith(
                       fontWeight: medium,
                     ),
@@ -101,23 +127,32 @@ class DetailChatPage extends StatelessWidget {
                 ],
               ),
             ),
-            Image.asset(
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  widget.product = UninitializedProductModel();
+                });
+              },
+              child: Image.asset(
                 'assets/button_close.png',
                 width: 22,
+              ),
             ),
           ],
         ),
       );
     }
 
-    Widget chatInput(){
+    Widget chatInput() {
       return Container(
         margin: const EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            productPreview(),
+            widget.product is UninitializedProductModel
+                ? SizedBox()
+                : productPreview(),
             Row(
               children: [
                 Expanded(
@@ -129,10 +164,11 @@ class DetailChatPage extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: backgroundColor4,
                       borderRadius: BorderRadius.circular(12),
-
                     ),
                     child: Center(
                       child: TextFormField(
+                        controller: messageController,
+                        style: primaryTextStyle,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Type Message...',
                           hintStyle: subtitleTextStyle,
@@ -144,9 +180,12 @@ class DetailChatPage extends StatelessWidget {
                 const SizedBox(
                   width: 20,
                 ),
-                Image.asset(
-                  'assets/button_send.png', 
-                  width: 45,
+                GestureDetector(
+                  onTap: handleAddMessage,
+                  child: Image.asset(
+                    'assets/button_send.png',
+                    width: 45,
+                  ),
                 ),
               ],
             ),
@@ -154,29 +193,32 @@ class DetailChatPage extends StatelessWidget {
         ),
       );
     }
-    
-    Widget content(){
-      return ListView(
-        padding: EdgeInsets.symmetric(
-          horizontal: defaultMargin,
-        ),
-        children: [
-          ChatBubble(
-            isSender: true,
-            text: 'Halo, Apakah barang ini masih ada?',
-            hasProduct: true,
-          ),
-          ChatBubble(
-            isSender: false,
-            text: 'Selamat malam, Untuk barang ini hanya tersedia di ukuran 42 dan 43',
-          ),
-          ChatBubble(
-            isSender: true,
-            text: 'Kalau gitu saya pesan ukuran yang 43',
-            hasProduct: false,
-          ),
-        ],
-      );
+
+    Widget content() {
+      return StreamBuilder<List<MessageModel>>(
+          stream: MessageService()
+              .getMessagesByUserId(userId: authProvider.user.id),
+          builder: (context, snapshot) {
+            print(snapshot.hasData);
+            if (snapshot.hasData) {
+              return ListView(
+                padding: EdgeInsets.symmetric(
+                  horizontal: defaultMargin,
+                ),
+                children: snapshot.data!
+                    .map((MessageModel message) => ChatBubble(
+                        isSender: message.isFromUser, 
+                        text: message.message,
+                        product: message.product,
+                      ))
+                    .toList(),
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              ); 
+            }
+          });
     }
 
     return Scaffold(
