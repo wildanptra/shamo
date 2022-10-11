@@ -10,7 +10,7 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-bool isLoading = false;
+bool isLoading = false; 
 
 class _ProfilePageState extends State<ProfilePage> {
   @override
@@ -36,6 +36,16 @@ class _ProfilePageState extends State<ProfilePage> {
             )
           )
         );
+      } else{
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: alertColor,
+            content: const Text(
+              'Gagal Logout!',
+              textAlign: TextAlign.center,
+            )
+          )
+        );
       }
 
       setState(() {
@@ -48,44 +58,17 @@ class _ProfilePageState extends State<ProfilePage> {
         width: 100,
         height: 44,
         child: TextButton(
-          onPressed: (){
-            handleLogout();
-          },
+          onPressed: handleLogout,
           style: TextButton.styleFrom(
             backgroundColor: primaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12)
             )
           ),
-          child: Text(
-            'Okay',
-            textAlign: TextAlign.center,
-            style: primaryTextStyle.copyWith(
-              fontSize: 16,
-              fontWeight: medium,
-            ),
-          ),
-        ),
-      );
-    }
-
-    loadingButtonLogout(){
-      return Container(
-        width: 100,
-        height: 44,
-        child: TextButton(
-          onPressed: (){
-            
-          },
-          style: TextButton.styleFrom(
-            backgroundColor: primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12)
-            )
-          ),
-          child: Row(
+          child:  Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              isLoading ? 
               Container(
                 width: 12,
                 height: 12,
@@ -95,12 +78,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     primaryTextColor,
                   ),
                 ),
+              ) : const SizedBox(
+                width: 0,
               ),
-              const SizedBox(
-                width: 5,
+              SizedBox(
+                width: isLoading ? -5 :  5,
               ),
               Text(
-                'Loading',
+                isLoading ? 
+                'Loading' : 'Okay',
                 style: primaryTextStyle.copyWith(
                   fontSize: 16,
                   fontWeight: medium,
@@ -148,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      isLoading ? loadingButtonLogout() : confirmButtonLogout(),
+                      confirmButtonLogout(),
                       const SizedBox(
                         width: 12,
                       ),

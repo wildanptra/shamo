@@ -22,7 +22,7 @@ class _SignInPageState extends State<SignInPage> {
 
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
-    handleSignIn()async{
+    handleSignIn() async{
 
       setState(() {
         isLoading = true;
