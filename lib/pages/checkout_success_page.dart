@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo/providers/transaction_provider.dart';
 import 'package:shamo/theme.dart';
 
 class CheckoutSuccessPage extends StatelessWidget {
@@ -6,19 +8,21 @@ class CheckoutSuccessPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TransactionProvider transactionProvider =
+        Provider.of<TransactionProvider>(context);
 
-    header(){
+    header() {
       return AppBar(
         backgroundColor: backgroundColor1,
         centerTitle: true,
-        title: Text(
-          'Checkout Success'
+        title: const Text(
+          'Checkout Success',
         ),
         elevation: 0,
       );
     }
 
-    Widget content(){
+    Widget content() {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -34,34 +38,43 @@ class CheckoutSuccessPage extends StatelessWidget {
               'You made a transaction',
               style: primaryTextStyle.copyWith(
                 fontSize: 16,
-                fontWeight: medium
+                fontWeight: medium,
               ),
             ),
             const SizedBox(
               height: 12,
             ),
             Text(
-              'Stay at home while we \n prepare your dream shoes',
-              textAlign: TextAlign.center,
+              'Lakukan pembayaran untuk\nmenyelesaikan transaksi',
               style: secondaryTextStyle,
+              textAlign: TextAlign.center,
             ),
-            // <-- ================ NOTE: ORDER OTHER SHOES BUTTON ================ -->
+            Text(
+              'Total Harga : ${transactionProvider.midtrans.grossAmount}',
+              style: primaryTextStyle.copyWith(fontWeight: bold),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              'Bank : ${transactionProvider.midtrans.vaNumbers!.first.bank}',
+              style: secondaryTextStyle,
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              'Va Number : ${transactionProvider.midtrans.vaNumbers!.first.vaNumber}',
+              style: secondaryTextStyle,
+              textAlign: TextAlign.center,
+            ),
             Container(
-              height: 44,
               width: 196,
-              margin: EdgeInsets.only(
-                top: defaultMargin,
-              ),
+              height: 44,
+              margin: EdgeInsets.only(top: defaultMargin),
               child: TextButton(
                 style: TextButton.styleFrom(
                   backgroundColor: primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
-                  )
+                  ),
                 ),
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-                },
                 child: Text(
                   'Order Other Shoes',
                   style: primaryTextStyle.copyWith(
@@ -69,43 +82,39 @@ class CheckoutSuccessPage extends StatelessWidget {
                     fontWeight: medium,
                   ),
                 ),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/home', (route) => false);
+                },
               ),
             ),
-            // <-- ================ END NOTE: ORDER OTHER SHOES BUTTON ================ -->
-            
-            // <-- ================ NOTE: VIEW MY ORDER BUTTON ================ -->
             Container(
-              height: 44,
               width: 196,
-              margin: const EdgeInsets.only(
-                top: 12,
-              ),
+              height: 44,
+              margin: const EdgeInsets.only(top: 12),
               child: TextButton(
                 style: TextButton.styleFrom(
                   backgroundColor: Color(0xff39374B),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)
-                  )
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
-                onPressed: (){
-
-                },
                 child: Text(
                   'View My Order',
                   style: primaryTextStyle.copyWith(
                     fontSize: 16,
                     fontWeight: medium,
-                    color: Color(0xffB7B6BF),
+                    color: const Color(0xffB7B6BF),
                   ),
                 ),
+                onPressed: () {},
               ),
             ),
-            // <-- ================ END NOTE: VIEW MY ORDER BUTTON ================ -->
           ],
         ),
       );
     }
-    
+
     return Scaffold(
       backgroundColor: backgroundColor3,
       appBar: header(),

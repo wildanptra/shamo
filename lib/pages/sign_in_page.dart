@@ -17,6 +17,9 @@ TextEditingController passwordController = TextEditingController(text : '');
 bool isLoading = false;
 
 class _SignInPageState extends State<SignInPage> {
+
+  bool _obscureText = true;
+
   @override
   Widget build(BuildContext context) {
 
@@ -169,14 +172,26 @@ class _SignInPageState extends State<SignInPage> {
                      Expanded(
                       child: TextFormField(
                         style: primaryTextStyle,
-                        obscureText: true,
+                        obscureText: _obscureText,
                         controller: passwordController,
-                        decoration: InputDecoration.collapsed(
+                        decoration: InputDecoration(
                           hintText: 'Your Password',
                           hintStyle: subtitleTextStyle,
+                          border: InputBorder.none,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscureText ? Icons.visibility : Icons.visibility_off,
+                              color: primaryColor,
+                            ),
+                            onPressed: (){
+                              setState(() {
+                                _obscureText = !_obscureText;
+                              });
+                            },
+                          ),
                         ),
                       ),
-                     )
+                     ),
                   ],
                 ),
               ),

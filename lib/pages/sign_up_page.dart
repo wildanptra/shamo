@@ -21,6 +21,9 @@ class _SignUpPageState extends State<SignUpPage> {
   
   bool isLoading = false;
 
+  bool _obscureText = true;
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -284,9 +287,21 @@ class _SignUpPageState extends State<SignUpPage> {
                         style: primaryTextStyle,
                         obscureText: true,
                         controller: passwordController,
-                        decoration: InputDecoration.collapsed(
+                        decoration: InputDecoration(
                           hintText: 'Your Password',
                           hintStyle: subtitleTextStyle,
+                          border: InputBorder.none,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscureText ? Icons.visibility : Icons.visibility_off,
+                              color: primaryColor,
+                            ),
+                            onPressed: (){
+                              setState(() {
+                                _obscureText = !_obscureText;
+                              });
+                            },
+                          ),
                         ),
                       ),
                      )

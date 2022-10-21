@@ -13,6 +13,45 @@ class EditProfilePage extends StatelessWidget {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserModel user = authProvider.user;
 
+    TextEditingController nameController =
+        TextEditingController(text: user.name);
+
+    TextEditingController usernameController =
+        TextEditingController(text: user.username);
+
+    TextEditingController emailController =
+        TextEditingController(text: user.email);
+
+    handleEditProfile() async {
+      if (await authProvider.editProfile(
+        name: nameController.text,
+        username: usernameController.text,
+        email: emailController.text,
+        token: authProvider.user.token!,
+      )) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: secondaryColor,
+            content: const Text(
+              'Berhasil Update Profile!',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+        Navigator.pushNamed(context, '/home');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: alertColor,
+            content: const Text(
+              'Gagal Update Profile!',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+    }
+
     header(){
       return AppBar(
         leading: IconButton(
@@ -35,7 +74,7 @@ class EditProfilePage extends StatelessWidget {
               Icons.check,
               color: primaryColor,
             ),
-            onPressed: (){}, 
+            onPressed: handleEditProfile, 
           )
         ],
       );
@@ -57,6 +96,7 @@ class EditProfilePage extends StatelessWidget {
             ),
             TextFormField(
               style: primaryTextStyle,
+              controller: nameController,
               decoration: InputDecoration(
                 hintText: user.name,
                 hintStyle: primaryTextStyle,
@@ -88,6 +128,7 @@ class EditProfilePage extends StatelessWidget {
             ),
             TextFormField(
               style: primaryTextStyle,
+              controller: usernameController,
               decoration: InputDecoration(
                 hintText: '@${user.username}',
                 hintStyle: primaryTextStyle,
@@ -119,6 +160,7 @@ class EditProfilePage extends StatelessWidget {
             ),
             TextFormField(
               style: primaryTextStyle,
+              controller: emailController,
               decoration: InputDecoration(
                 hintText: user.email,
                 hintStyle: primaryTextStyle,

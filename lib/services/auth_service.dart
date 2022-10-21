@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shamo/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shamo/providers/auth_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService{
 
@@ -32,7 +33,12 @@ class AuthService{
       
       var data = jsonDecode(response.body)['data'];
       UserModel user = UserModel.fromJson(data['user']);
-      user.token = 'Bearer ' + data['access_token'];
+      var token = user.token = 'Bearer ' + data['access_token'];
+
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('email', email!);
+      prefs.setString('password', password!);
+      prefs.setString('token', token);
 
       return user; 
 
@@ -64,7 +70,12 @@ class AuthService{
       
       var data = jsonDecode(response.body)['data'];
       UserModel user = UserModel.fromJson(data['user']);
-      user.token = 'Bearer ' + data['access_token'];
+      var token = user.token = 'Bearer ' + data['access_token'];
+
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('email', email!);
+      prefs.setString('password', password!);
+      prefs.setString('token', token);
 
       return user; 
 
@@ -72,6 +83,45 @@ class AuthService{
       
       throw Exception('Gagal Login');
     
+    }
+  }
+
+  Future<UserModel> editProfile({
+    required String name,
+    required String username,
+    required String email,
+    required String token,
+  }) async {
+    var url = '$baseUrl/user';
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    };
+    var body = jsonEncode({
+      'name': name,
+      'username': username,
+      'email': email,
+    });
+
+    var response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: body,
+    );
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)['data'];
+      UserModel user = UserModel.fromJson(data);
+      user.token = token;
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('email', email);
+
+      return user;
+    } else {
+      throw Exception('Gagal Update Profil');
     }
   }
 
@@ -90,6 +140,12 @@ class AuthService{
     print(response.body);
 
     if(response.statusCode == 200){
+      final prefs = await SharedPreferences.getInstance();
+      final removeEmail = prefs.remove('email');
+      final removePassword = prefs.remove('password');
+      final removeToken = prefs.remove('token');
+      // ignore: deprecated_member_use
+      prefs.commit();
 
       return true; 
 

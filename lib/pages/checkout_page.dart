@@ -22,24 +22,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
   Widget build(BuildContext context) {
     
     CartProvider cartProvider = Provider.of<CartProvider>(context);
-    TransactionProvider transactionProvider = Provider.of<TransactionProvider>(context);
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
-  
-    handleCheckout() async{
-
-      setState(() {
-        isLoading = true;
-      });
-
-      if(await transactionProvider.checkout(authProvider.user.token!, cartProvider.carts, cartProvider.totalPrice())){
-        cartProvider.carts = [];
-        Navigator.pushNamedAndRemoveUntil(context, '/checkout-success', (route) => false);
-      }
-
-      setState(() {
-        isLoading = false;
-      });
-    }
     
     header(){
       return AppBar(
@@ -316,7 +298,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   borderRadius: BorderRadius.circular(12),
                 )
               ),
-              onPressed: handleCheckout,
+              onPressed:  () {
+                Navigator.pushNamed(context, '/checkout-payment');
+              },
               child: Text(
                 'Checkout Now',
                 style: primaryTextStyle.copyWith(
