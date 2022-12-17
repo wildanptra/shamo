@@ -64,7 +64,7 @@ class ChatPage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Container(
+              SizedBox(
                 height: 44,
                 child: TextButton(
                   onPressed: (){
@@ -102,7 +102,7 @@ class ChatPage extends StatelessWidget {
 
           if(snapshot.hasData){
 
-            if(snapshot.data!.length == 0){
+            if(snapshot.data!.isEmpty){
               return emptyChat();
             }
 

@@ -7,7 +7,7 @@ import 'package:shamo/theme.dart';
 class ChatTile extends StatelessWidget {
   
   final MessageModel message;
-  ChatTile(this.message); 
+  const ChatTile(this.message, {super.key}); 
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,8 @@ class ChatBubble extends StatelessWidget {
   final bool isSender;
   final ProductModel? product;
 
-  ChatBubble({
+  const ChatBubble({
+      super.key, 
       this.isSender = false,
       this.text = '',
       this.product,
@@ -26,8 +27,8 @@ class ChatBubble extends StatelessWidget {
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(isSender ? 12 : 0),
             topRight: Radius.circular(isSender ? 0 : 12),
-            bottomLeft: Radius.circular(12),
-            bottomRight: Radius.circular(12),
+            bottomLeft: const Radius.circular(12),
+            bottomRight: const Radius.circular(12),
           ),
           color: isSender ? backgroundColor5 : backgroundColor2,
         ),
@@ -137,8 +138,8 @@ class ChatBubble extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(isSender ? 12 : 0),
                       topRight: Radius.circular(isSender ? 0 : 12),
-                      bottomLeft: Radius.circular(12),
-                      bottomRight: Radius.circular(12),
+                      bottomLeft: const Radius.circular(12),
+                      bottomRight: const Radius.circular(12),
                     ),
                     color: isSender ? backgroundColor5 : backgroundColor2,
                   ),

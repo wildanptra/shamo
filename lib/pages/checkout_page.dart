@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shamo/providers/auth_provider.dart';
 import 'package:shamo/providers/cart_provider.dart';
-import 'package:shamo/providers/transaction_provider.dart';
 import 'package:shamo/theme.dart';
 import 'package:shamo/widgets/checkout_card.dart';
 import 'package:shamo/widgets/loading_button.dart';
@@ -28,7 +26,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         backgroundColor: backgroundColor1,
         elevation: 0,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Checkout Details',
         ),
       );
@@ -283,7 +281,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               margin: EdgeInsets.only(
                 bottom: defaultMargin
               ),
-              child: LoadingButton(),
+              child: const LoadingButton(),
             ) 
             : Container(
             height: 50,

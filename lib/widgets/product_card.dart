@@ -6,7 +6,7 @@ import 'package:shamo/theme.dart';
 class ProductCard extends StatelessWidget {
   
   final ProductModel product;
-  ProductCard(this.product);
+  const ProductCard(this.product, {super.key});
 
   @override
   Widget build(BuildContext context) {

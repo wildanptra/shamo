@@ -117,15 +117,15 @@ class _MainPageState extends State<MainPage> {
     Widget body(){
       switch (pageProvider.currentIndex) {
         case 0:
-          return HomePage();
+          return const HomePage();
         case 1:
-          return ChatPage();
+          return const ChatPage();
         case 2:
-          return WishlistPage();
+          return const WishlistPage();
         case 3:
-          return ProfilePage();
+          return const ProfilePage();
         default:
-          return HomePage();
+          return const HomePage();
       }
     }
 

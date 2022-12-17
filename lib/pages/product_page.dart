@@ -10,7 +10,8 @@ import 'package:shamo/theme.dart';
 class ProductPage extends StatefulWidget {
 
   final ProductModel product;
-  ProductPage(this.product);
+  // ignore: use_key_in_widget_constructors
+  const ProductPage(this.product);
 
   @override
   State<ProductPage> createState() => _ProductPageState();
@@ -42,7 +43,7 @@ class _ProductPageState extends State<ProductPage> {
     Future<void> showSuccessDialog() async{
       return showDialog(
         context: context, 
-        builder: (BuildContext context) => Container(
+        builder: (BuildContext context) => SizedBox(
           width: MediaQuery.of(context).size.width - (2 * defaultMargin),
           child: AlertDialog(
             backgroundColor: backgroundColor3,
@@ -88,7 +89,7 @@ class _ProductPageState extends State<ProductPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
+                  SizedBox(
                     width: 154,
                     height: 44,
                     child: TextButton(
@@ -127,7 +128,7 @@ class _ProductPageState extends State<ProductPage> {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: currentIndex == index ? primaryColor : Color(0xffC4C4C4),
+          color: currentIndex == index ? primaryColor : const Color(0xffC4C4C4),
         ),
         
       );
@@ -433,7 +434,7 @@ class _ProductPageState extends State<ProductPage> {
                     width: 16,
                   ),
                   Expanded(
-                    child: Container(
+                    child: SizedBox(
                       height: 54,
                       child: TextButton(
                         onPressed: (){

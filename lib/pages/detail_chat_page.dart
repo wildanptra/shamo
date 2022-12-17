@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shamo/models/message_model.dart';
@@ -9,7 +11,7 @@ import 'package:shamo/widgets/chat_bubble.dart';
 
 class DetailChatPage extends StatefulWidget {
   ProductModel product;
-  DetailChatPage(this.product);
+  DetailChatPage(this.product, {super.key});
 
   @override
   State<DetailChatPage> createState() => _DetailChatPageState();
@@ -151,7 +153,7 @@ class _DetailChatPageState extends State<DetailChatPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             widget.product is UninitializedProductModel
-                ? SizedBox()
+                ? const SizedBox()
                 : productPreview(),
             Row(
               children: [

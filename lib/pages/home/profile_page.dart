@@ -5,6 +5,8 @@ import 'package:shamo/providers/auth_provider.dart';
 import 'package:shamo/theme.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -54,7 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     confirmButtonLogout(){
-      return Container(
+      return SizedBox(
         width: 100,
         height: 44,
         child: TextButton(
@@ -69,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               isLoading ? 
-              Container(
+              SizedBox(
                 width: 12,
                 height: 12,
                 child: CircularProgressIndicator(
@@ -101,7 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
     Future<void> showLogoutDialog() async{
       return showDialog(
         context: context, 
-        builder: (BuildContext context) => Container(
+        builder: (BuildContext context) => SizedBox(
           width: MediaQuery.of(context).size.width - (2 * defaultMargin),
           child: AlertDialog(
             backgroundColor: backgroundColor3,
@@ -111,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
             content: SingleChildScrollView(
               child: Column(
                 children: [
-                  Container(
+                  SizedBox(
                     width: 300,
                     child: Icon(
                       Icons.logout,
@@ -138,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(
                         width: 12,
                       ),
-                      Container(
+                      SizedBox(
                         width: 100,
                         height: 44,
                         child: TextButton(

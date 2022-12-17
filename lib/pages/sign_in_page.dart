@@ -5,7 +5,8 @@ import 'package:shamo/theme.dart';
 import 'package:shamo/widgets/loading_button.dart';
 
 class SignInPage extends StatefulWidget {
-
+  const SignInPage({super.key});
+  
   @override
   State<SignInPage> createState() => _SignInPageState();
 }
@@ -268,7 +269,7 @@ class _SignInPageState extends State<SignInPage> {
               header(),
               emailInput(),
               passwordInput(),
-              isLoading ? LoadingButton() : signInButton(),
+              isLoading ? const LoadingButton() : signInButton(),
               const Spacer(),
               footer(),
             ],

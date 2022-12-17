@@ -6,7 +6,7 @@ import 'package:shamo/theme.dart';
 
 class WishListCard extends StatelessWidget {
   final ProductModel product;
-  WishListCard(this.product);
+  const WishListCard(this.product, {super.key});
 
 
   @override

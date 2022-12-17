@@ -51,7 +51,7 @@ class CartPage extends StatelessWidget {
             Container(
               width: 154,
               height: 44,
-              margin: EdgeInsets.only(
+              margin: const EdgeInsets.only(
                 top: 20,
               ),
               child: TextButton(
@@ -176,8 +176,8 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor3,
       appBar: header(),
-      body: cartProvider.carts.length == 0 ? emptyCart() : content(),
-      bottomNavigationBar: cartProvider.carts.length == 0 ? SizedBox(height: 50,) : customButtonNav(),
+      body: cartProvider.carts.isEmpty ? emptyCart() : content(),
+      bottomNavigationBar: cartProvider.carts.isEmpty ? const SizedBox(height: 50,) : customButtonNav(),
     );
   }
 }

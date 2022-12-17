@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:provider/provider.dart';
 import 'package:shamo/models/user_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:shamo/providers/auth_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService{
@@ -33,7 +31,7 @@ class AuthService{
       
       var data = jsonDecode(response.body)['data'];
       UserModel user = UserModel.fromJson(data['user']);
-      var token = user.token = 'Bearer ' + data['access_token'];
+      var token = user.token = 'Bearer ${data['access_token']}';
 
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('email', email!);
@@ -66,11 +64,13 @@ class AuthService{
 
     print(response.body);
 
+    print(response.statusCode);
+
     if(response.statusCode == 200){
       
       var data = jsonDecode(response.body)['data'];
       UserModel user = UserModel.fromJson(data['user']);
-      var token = user.token = 'Bearer ' + data['access_token'];
+      var token = user.token = 'Bearer ${data['access_token']}';
 
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('email', email!);
@@ -141,11 +141,9 @@ class AuthService{
 
     if(response.statusCode == 200){
       final prefs = await SharedPreferences.getInstance();
-      final removeEmail = prefs.remove('email');
-      final removePassword = prefs.remove('password');
-      final removeToken = prefs.remove('token');
-      // ignore: deprecated_member_use
-      prefs.commit();
+      prefs.remove('email');
+      prefs.remove('password');
+      prefs.remove('token');
 
       return true; 
 

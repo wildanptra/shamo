@@ -5,6 +5,8 @@ import 'package:shamo/theme.dart';
 import 'package:shamo/widgets/loading_button.dart';
 
 class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -285,7 +287,7 @@ class _SignUpPageState extends State<SignUpPage> {
                      Expanded(
                       child: TextFormField(
                         style: primaryTextStyle,
-                        obscureText: true,
+                        obscureText: _obscureText,
                         controller: passwordController,
                         decoration: InputDecoration(
                           hintText: 'Your Password',
@@ -386,7 +388,7 @@ class _SignUpPageState extends State<SignUpPage> {
               usernameInput(),
               emailInput(),
               passwordInput(),
-              isLoading ? LoadingButton() : signUpButton() ,
+              isLoading ? const LoadingButton() : signUpButton() ,
               const Spacer(),
               footer(),
             ],

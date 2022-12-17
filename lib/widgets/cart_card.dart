@@ -7,7 +7,7 @@ import 'package:shamo/theme.dart';
 class CartCard extends StatelessWidget {
   
   final CartModel cart;
-  CartCard(this.cart);
+  const CartCard(this.cart, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class CartCard extends StatelessWidget {
       margin: EdgeInsets.only(
         top: defaultMargin,
       ),
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: 10,
       ),

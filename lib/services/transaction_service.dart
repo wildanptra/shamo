@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shamo/models/cart_model.dart';
 import 'package:shamo/models/midtrans_model.dart';
-import 'package:shamo/models/user_model.dart';
 
 class TransactionService {
   String baseUrl = 'https://shamo-backend.buildwithangga.id/api';
@@ -66,7 +65,7 @@ class TransactionService {
       'gopay': {'enable_callback': true, 'callback_url': 'someapps://callback'},
       'echannel': {'bill_info1': 'Payment For:', 'bill_info2': 'Other'},
       'transaction_details': {
-        'order_id': 'order-102-101' + DateTime.now().toString(),
+        'order_id': 'order-102-101${DateTime.now()}',
         'gross_amount': totalPrice
       },
       'customer_details': {

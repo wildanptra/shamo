@@ -36,11 +36,14 @@ class _SplashPageState extends State<SplashPage> {
     final token = sharedPreferences.getString('token');
 
     if (token != null) {
+      // ignore: use_build_context_synchronously
       await Provider.of<AuthProvider>(context, listen: false)
           .login(email: email, password: password);
 
+      // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, '/home');
     } else {
+      // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, '/sign-in');
     }
   }

@@ -1,5 +1,4 @@
 import 'package:shamo/models/bank_model.dart';
-import 'package:shamo/providers/transaction_provider.dart';
 
 class MidtransModel {
   late String transactionId;

@@ -5,7 +5,7 @@ import 'package:shamo/theme.dart';
 
 class ProductTile extends StatelessWidget {
   final ProductModel product;
-  ProductTile(this.product);
+  const ProductTile(this.product, {super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -58,7 +58,7 @@ class WishlistPage extends StatelessWidget {
               const SizedBox(
                 height:20,
               ),
-              Container(
+              SizedBox(
                 height: 44,
                 child: TextButton(
                   style: TextButton.styleFrom(
@@ -108,7 +108,7 @@ class WishlistPage extends StatelessWidget {
     return Column(
       children: [
         header(),
-        wishlistProvider.wishlist.length == 0 ? emptyWishList(): content(),
+        wishlistProvider.wishlist.isEmpty ? emptyWishList(): content(),
       ],
 
     );

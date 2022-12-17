@@ -94,7 +94,7 @@ class CheckoutSuccessPage extends StatelessWidget {
               margin: const EdgeInsets.only(top: 12),
               child: TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Color(0xff39374B),
+                  backgroundColor: const Color(0xff39374B),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
